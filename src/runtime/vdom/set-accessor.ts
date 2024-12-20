@@ -198,6 +198,16 @@ const parseClassListRegex = /\s/;
  * @param value className string, e.g. "foo bar baz"
  * @returns list of classes, e.g. ["foo", "bar", "baz"]
  */
-const parseClassList = (value: string | undefined | null): string[] => (!value ? [] : value.split(parseClassListRegex));
+const parseClassList = (value: string | SVGAnimatedString | undefined | null): string[] => {
+  if (value instanceof SVGAnimatedString) {
+    value = value.baseVal;
+  }
+
+  if (!value) {
+    return [];
+  }
+
+  return value.split(parseClassListRegex);
+};
 const CAPTURE_EVENT_SUFFIX = 'Capture';
 const CAPTURE_EVENT_REGEX = new RegExp(CAPTURE_EVENT_SUFFIX + '$');
